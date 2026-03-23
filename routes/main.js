@@ -5,19 +5,19 @@ const Reviews = require("../models/reviews");
 const { query } = require("express");
 const reviews = require("../models/reviews");
 
-// router.get("/generate-fake-data", (req, res, next) => {
-//   for (let i = 0; i < 90; i++) {
-//     let product = new Product();
+router.get("/generate-fake-data", (req, res, next) => {
+  for (let i = 0; i < 90; i++) {
+    let product = new Product();
 
-//     product.category = faker.commerce.department();
-//     product.name = faker.commerce.productName();
-//     product.price = faker.commerce.price();
-//     product.image = "https://via.placeholder.com/250?text=Product+Image";
+    product.category = faker.commerce.department();
+    product.name = faker.commerce.productName();
+    product.price = faker.commerce.price();
+    product.image = "https://via.placeholder.com/250?text=Product+Image";
 
-//     product.save();
-//   }
-//   res.end();
-// });
+    product.save();
+  }
+  res.end();
+});
 
 router.get("/products", (req, res, next) => {
   const page = req.query.page || 1;
@@ -76,6 +76,27 @@ router.get("/products/:product/review", (req, res, next) => {
     .catch((err) => {
       console.error(err);
       res.status(500).send("Server error");
+    });
+});
+
+router.post("/products", (req, res, next) => {
+  const { category, name, price, image } = req.body;
+
+  const newProduct = new Product({
+    category,
+    name,
+    price,
+    image,
+  });
+
+  newProduct
+    .save()
+    .then((savedProduct) => {
+      res.send(savedProduct);
+    })
+    .catch((err) => {
+      console.error(err);
+      return res.status(500).send("Server error");
     });
 });
 
