@@ -33,4 +33,20 @@ router.get("/products", (req, res, next) => {
     });
 });
 
+router.get("/products/:product", (req, res, next) => {
+  const id = req.params.product;
+
+  Product.findById(id)
+    .then((product) => {
+      if (!product) {
+        return res.status(404).send("Product not found");
+      }
+      res.send(product);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Server error");
+    });
+});
+
 module.exports = router;
