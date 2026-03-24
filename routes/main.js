@@ -22,16 +22,29 @@ router.get("/generate-fake-data", (req, res, next) => {
 router.get("/products", (req, res, next) => {
   const page = req.query.page || 1;
   const limit = 9;
+  const category = req.query.category;
 
-  Product.find()
-    .skip((page - 1) * limit)
-    .limit(limit)
-    .then((products) => {
-      res.send(products);
-    })
-    .catch((err) => {
-      console.error(err);
-    });
+  if (category) {
+    Product.find({ category: { $regex: `^${category}$`, $options: "i" } })
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .then((products) => {
+        res.status(200).send(products);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  } else {
+    Product.find()
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .then((products) => {
+        res.status(200).send(products);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
 });
 
 router.get("/products/:product", (req, res, next) => {
