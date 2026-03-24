@@ -3,7 +3,7 @@ const faker = require("faker");
 const Product = require("../models/product");
 const Reviews = require("../models/reviews");
 const { query } = require("express");
-const reviews = require("../models/reviews");
+const product = require("../models/product");
 
 router.get("/generate-fake-data", (req, res, next) => {
   for (let i = 0; i < 90; i++) {
@@ -97,6 +97,37 @@ router.post("/products", (req, res, next) => {
     .catch((err) => {
       console.error(err);
       return res.status(500).send("Server error");
+    });
+});
+
+router.post("/products/:product/reviews", (req, res, next) => {
+  const { userName, text } = req.body;
+  const id = req.params.product;
+
+  const newReview = new Reviews({
+    userName,
+    text,
+    product: id,
+  });
+
+  newReview
+    .save()
+    .then((savedReview) => {
+      return Product.findByIdAndUpdate(
+        id,
+        { $push: { reviews: savedReview._id } },
+        { new: true },
+      );
+    })
+    .then((updatedProduct) => {
+      return Product.populate(updatedProduct, { path: "reviews" });
+    })
+    .then((populatedProduct) => {
+      res.status(201).send(populatedProduct);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error saving review");
     });
 });
 
