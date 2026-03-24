@@ -131,4 +131,20 @@ router.post("/products/:product/reviews", (req, res, next) => {
     });
 });
 
+router.delete("/products/:product", (req, res, next) => {
+  const id = req.params.product;
+
+  Product.findByIdAndDelete(id)
+    .then((deletedProduct) => {
+      if (!deletedProduct) {
+        return res.status(404).send("Product not found");
+      }
+      res.status(200).send(deletedProduct);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("server error");
+    });
+});
+
 module.exports = router;
