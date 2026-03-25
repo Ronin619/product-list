@@ -22,10 +22,18 @@ router.get("/generate-fake-data", (req, res, next) => {
 router.get("/products", (req, res, next) => {
   const page = req.query.page || 1;
   const limit = 9;
-  const category = req.query.category;
+  const { category, price } = req.query;
 
-  if (category) {
+  let sortValue;
+  if (price === "highest") {
+    sortValue = 1;
+  } else {
+    sortValue = -1;
+  }
+
+  if (category || price) {
     Product.find({ category: { $regex: `^${category}$`, $options: "i" } })
+      .sort({ price: sortValue })
       .skip((page - 1) * limit)
       .limit(limit)
       .then((products) => {
