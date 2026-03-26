@@ -22,21 +22,28 @@ router.get("/generate-fake-data", (req, res, next) => {
 router.get("/products", (req, res, next) => {
   const page = req.query.page || 1;
   const limit = 9;
-  const { category, price } = req.query;
+  const { category, price, name } = req.query;
+
+  const filter = {};
+
+  if (category)
+    filter.category =
+      category.trim().charAt(0).toUpperCase() + category.trim().slice(1);
+  if (name) filter.name = name;
 
   let sortValue;
   if (price === "highest") {
-    sortValue = 1;
-  } else {
     sortValue = -1;
+  } else {
+    sortValue = 1;
   }
 
-  if (category || price) {
-    const categoryQuery = category.charAt(0).toUpperCase() + category.slice(1);
-    Product.find({
-      category: categoryQuery,
-    })
-      .sort({ price: sortValue })
+  let sortOption = {};
+  if (sortValue !== 0) sortOption.price = sortValue;
+
+  if (filter) {
+    Product.find(filter)
+      .sort(sortOption)
       .skip((page - 1) * limit)
       .limit(limit)
       .then((products) => {
