@@ -32,7 +32,10 @@ router.get("/products", (req, res, next) => {
   }
 
   if (category || price) {
-    Product.find({ category: { $regex: `^${category}$`, $options: "i" } })
+    const categoryQuery = category.charAt(0).toUpperCase() + category.slice(1);
+    Product.find({
+      category: categoryQuery,
+    })
       .sort({ price: sortValue })
       .skip((page - 1) * limit)
       .limit(limit)
