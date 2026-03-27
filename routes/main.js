@@ -29,7 +29,10 @@ router.get("/products", (req, res, next) => {
   if (category)
     filter.category =
       category.trim().charAt(0).toUpperCase() + category.trim().slice(1);
-  if (name) filter.name = name;
+
+  if (name) {
+    filter.name = { $regex: name, $options: "i" };
+  }
 
   let sortValue;
   if (price === "highest") {
@@ -41,7 +44,7 @@ router.get("/products", (req, res, next) => {
   let sortOption = {};
   if (sortValue !== 0) sortOption.price = sortValue;
 
-  if (filter) {
+  if (Object.keys(filter).length > 0) {
     Product.find(filter)
       .sort(sortOption)
       .skip((page - 1) * limit)
