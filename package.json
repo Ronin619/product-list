@@ -20,6 +20,8 @@
   },
   "dependencies": {
     "body-parser": "^2.2.2",
+    "boostrap": "^2.0.0",
+    "eslint-config-wesbos": "^4.3.2",
     "express": "^5.2.1",
     "faker": "^5.5.3",
     "mongoose": "^9.3.1"
