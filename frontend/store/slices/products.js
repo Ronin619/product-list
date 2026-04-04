@@ -7,21 +7,20 @@ export const fetchProducts = createAsyncThunk(
   "get/products",
   async (page = 1) => {
     const response = await axios.get(`${ROOT_URL}?page=${page}`);
-    const productSet = [];
 
-    response.data.products.forEach((product) => {
-      const productCard = {
-        id: product._id,
-        category: product.category,
-        price: product.price,
-        image: product.image,
-        name: product.name,
-      };
+    const productSet = response.data.products.map((product) => ({
+      id: product._id,
+      category: product.category,
+      price: product.price,
+      image: product.image,
+      name: product.name,
+    }));
 
-      productSet.push(productCard);
-    });
-    console.log(productCard);
-    return productSet;
+    return {
+      products: productSet,
+      totalPages: response.data.totalPages,
+      currentPage: response.data.currentPage,
+    };
   },
 );
 
