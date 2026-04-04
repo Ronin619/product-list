@@ -44,28 +44,24 @@ router.get("/products", (req, res, next) => {
   let sortOption = {};
   if (sortValue !== 0) sortOption.price = sortValue;
 
-  if (Object.keys(filter).length > 0) {
-    Product.find(filter)
-      .sort(sortOption)
-      .skip((page - 1) * limit)
-      .limit(limit)
-      .then((products) => {
-        res.status(200).send(products);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  } else {
-    Product.find()
-      .skip((page - 1) * limit)
-      .limit(limit)
-      .then((products) => {
-        res.status(200).send(products);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }
+  Product.countDocuments(filter)
+    .then((total) => {
+      return Product.find(filter)
+        .sort(sortOption)
+        .skip((page - 1) * limit)
+        .limit(limit)
+        .then((products) => {
+          res.status(200).json({
+            products,
+            totalPages: Math.ceil(total / limit),
+            currentPage: parseInt(page),
+          });
+        });
+    })
+    .catch((err) => {
+      console.error(err);
+      next(err);
+    });
 });
 
 router.get("/products/:product", (req, res, next) => {
