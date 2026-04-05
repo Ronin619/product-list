@@ -1,4 +1,12 @@
+import { useState } from "react";
+
 export default function Navbar() {
+  const [searchInput, setSearchInput] = useState("");
+
+  const handleSubmit = () => {
+    console.log(searchInput);
+  };
+
   return (
     <>
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -8,9 +16,18 @@ export default function Navbar() {
               <input
                 className="form-control me-2"
                 type="search"
+                value={searchInput}
                 placeholder="Search"
                 aria-label="Search"
+                onChange={(e) => setSearchInput(e.target.value)}
               />
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={() => handleSubmit()}
+              >
+                Search
+              </button>
             </form>
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item dropdown">
