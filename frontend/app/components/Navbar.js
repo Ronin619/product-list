@@ -2,9 +2,11 @@ import { useState } from "react";
 
 export default function Navbar() {
   const [searchInput, setSearchInput] = useState("");
+  const [price, setPrice] = useState("");
+  const [category, setCategory] = useState("");
 
   const handleSubmit = () => {
-    console.log(searchInput);
+    searchInput("");
   };
 
   return (
@@ -53,12 +55,24 @@ export default function Navbar() {
                 </a>
                 <ul className="dropdown-menu">
                   <li>
-                    <a className="dropdown-item" href="#">
+                    <a
+                      className="dropdown-item"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setPrice("lowest");
+                      }}
+                    >
                       Lowest
                     </a>
                   </li>
                   <li>
-                    <a className="dropdown-item" href="#">
+                    <a
+                      className="dropdown-item"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setPrice("highest");
+                      }}
+                    >
                       highest
                     </a>
                   </li>

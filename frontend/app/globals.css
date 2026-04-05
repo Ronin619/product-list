@@ -58,3 +58,8 @@ a {
   display: flex;
   justify-content: space-between;
 }
+
+.dropdown-item:hover {
+  cursor: default;
+  font-weight: bold;
+}
