@@ -1,9 +1,8 @@
 import { useSelector } from "react-redux";
 
 export default function Pagination() {
-  const totalPages = useSelector((state) => state.totalPages);
+  const totalPages = useSelector((state) => state.products.totalPages);
   const pagesArr = Array.from({ length: totalPages }, (_, i) => i + 1);
-  console.log(totalPages);
 
   const pages = pagesArr.map((page) => (
     <li className="page-item" key={page}>
