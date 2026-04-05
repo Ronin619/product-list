@@ -47,3 +47,14 @@ a {
     color-scheme: dark;
   }
 }
+
+.card {
+  margin: auto;
+  width: 250px;
+  height: 300px;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+}
