@@ -64,6 +64,17 @@ router.get("/products", (req, res, next) => {
     });
 });
 
+router.get("/categories", (req, res, next) => {
+  Product.distinct("category")
+    .then((category) => {
+      res.status(200).json(category);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Server error");
+    });
+});
+
 router.get("/products/:product", (req, res, next) => {
   const id = req.params.product;
 
