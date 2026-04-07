@@ -63,3 +63,8 @@ a {
   cursor: default;
   font-weight: bold;
 }
+
+.page-link:hover {
+  cursor: default;
+  font-weight: bold;
+}
