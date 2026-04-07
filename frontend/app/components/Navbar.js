@@ -1,12 +1,17 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { fetchProducts } from "../../store/slices/products";
 
 export default function Navbar() {
   const [searchInput, setSearchInput] = useState("");
-  const [price, setPrice] = useState("");
+  const [sortPrice, setSortPrice] = useState("");
   const [category, setCategory] = useState("");
+  const dispatch = useDispatch();
 
-  const handleSubmit = () => {
-    searchInput("");
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(fetchProducts({ name: searchInput }));
+    setSearchInput("");
   };
 
   return (
@@ -26,7 +31,7 @@ export default function Navbar() {
               <button
                 type="button"
                 className="btn btn-primary"
-                onClick={() => handleSubmit()}
+                onClick={(e) => handleSubmit(e)}
               >
                 Search
               </button>
@@ -59,7 +64,7 @@ export default function Navbar() {
                       className="dropdown-item"
                       onClick={(e) => {
                         e.preventDefault();
-                        setPrice("lowest");
+                        setSortPrice("lowest");
                       }}
                     >
                       Lowest
@@ -70,7 +75,7 @@ export default function Navbar() {
                       className="dropdown-item"
                       onClick={(e) => {
                         e.preventDefault();
-                        setPrice("highest");
+                        setSortPrice("highest");
                       }}
                     >
                       highest
