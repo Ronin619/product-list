@@ -1,12 +1,33 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../../store/slices/products";
+import { fetchCategories } from "../../store/slices/products";
 
 export default function Navbar() {
   const [searchInput, setSearchInput] = useState("");
-  const [sortPrice, setSortPrice] = useState("");
-  const [category, setCategory] = useState("");
+  const [categoryOpen, setCategoryOpen] = useState(false);
+  const [priceOpen, setPriceOpen] = useState(false);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchCategories());
+  }, [dispatch]);
+
+  const categories = useSelector((state) => state.products.categories);
+
+  const categoryDropDownList = categories.map((category) => (
+    <li key={category}>
+      <a
+        className="dropdown-item"
+        onClick={(e) => {
+          e.preventDefault();
+          setCategoryOpen(!category);
+        }}
+      >
+        {category}
+      </a>
+    </li>
+  ));
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -42,46 +63,57 @@ export default function Navbar() {
                   className="nav-link dropdown-toggle"
                   href="#"
                   role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setCategoryOpen(!categoryOpen);
+                  }}
                 >
                   Sort by Category
                 </a>
+                {categoryOpen && (
+                  <ul className="dropdown-menu show">{categoryDropDownList}</ul>
+                )}
               </li>
               <li className="nav-item dropdown">
                 <a
                   className="nav-link dropdown-toggle"
                   href="#"
                   role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setPriceOpen(!priceOpen);
+                  }}
                 >
                   Sort by Price
                 </a>
-                <ul className="dropdown-menu">
-                  <li>
-                    <a
-                      className="dropdown-item"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setSortPrice("lowest");
-                      }}
-                    >
-                      Lowest
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      className="dropdown-item"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setSortPrice("highest");
-                      }}
-                    >
-                      highest
-                    </a>
-                  </li>
-                </ul>
+                {priceOpen && (
+                  <ul className="dropdown-menu show">
+                    <li>
+                      <a
+                        className="dropdown-item"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setSortPrice("lowest");
+                          setPriceOpen(false);
+                        }}
+                      >
+                        Lowest
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        className="dropdown-item"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setSortPrice("highest");
+                          setPriceOpen(false);
+                        }}
+                      >
+                        highest
+                      </a>
+                    </li>
+                  </ul>
+                )}
               </li>
             </ul>
           </div>
