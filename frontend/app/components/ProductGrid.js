@@ -17,7 +17,8 @@ export default function ProductGrid() {
               src={product.image}
               width={200}
               height={200}
-              alt="Picture of the product"
+              alt={product.name}
+              unoptimized
             ></Image>
             <h2 className="card-name">{product.name}</h2>
           </div>
