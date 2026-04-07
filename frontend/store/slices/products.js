@@ -15,7 +15,6 @@ export const fetchProducts = createAsyncThunk(
       image: product.image,
       name: product.name,
     }));
-
     return {
       products: productSet,
       totalPages: response.data.totalPages,
