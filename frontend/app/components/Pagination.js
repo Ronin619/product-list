@@ -26,7 +26,10 @@ export default function Pagination() {
         <li className="page-item">
           <a
             className="page-link"
-            onClick={() => setCurrentPage(currentPage - 1)}
+            onClick={() => {
+              if (currentPage === 1) return;
+              setCurrentPage(currentPage - 1);
+            }}
             aria-label="Previous"
           >
             <span aria-hidden="true">&laquo;</span>
