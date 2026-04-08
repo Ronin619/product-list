@@ -5,9 +5,9 @@ const ROOT_URL = "http://localhost:8000/products";
 
 export const fetchProducts = createAsyncThunk(
   "get/products",
-  async ({ page = 1, name = "", category = "" } = {}) => {
+  async ({ page = 1, name = "", category = "", price = "" } = {}) => {
     const response = await axios.get(
-      `${ROOT_URL}?page=${page}&name=${name}&category=${category}`,
+      `${ROOT_URL}?page=${page}&name=${name}&category=${category}&price=${price}`,
     );
 
     const productSet = response.data.products.map((product) => ({
@@ -37,10 +37,21 @@ export const productsSlice = createSlice({
     totalPages: 1,
     currentPage: 1,
     categories: [],
+    filters: {
+      name: "",
+      category: "",
+      price: "",
+    },
     status: "idle",
     error: null,
   },
-  reducers: {},
+  reducers: {
+    setFilter: (state, action) => {
+      state.filters.name = action.payload.name;
+      state.filters.price = action.payload.price;
+      state.filters.category = action.payload.category;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchProducts.pending, (state) => {
@@ -66,4 +77,5 @@ export const productsSlice = createSlice({
   },
 });
 
+export const { setFilter } = productsSlice.actions;
 export default productsSlice.reducer;
