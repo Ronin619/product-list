@@ -6,6 +6,7 @@ import { fetchCategories } from "../../store/slices/products";
 export default function Navbar() {
   const [searchInput, setSearchInput] = useState("");
   const [categoryOpen, setCategoryOpen] = useState(false);
+  const [sortPrice, setSortPrice] = useState("");
   const [priceOpen, setPriceOpen] = useState(false);
   const dispatch = useDispatch();
 
@@ -40,7 +41,7 @@ export default function Navbar() {
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
         <div className="container-fluid">
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <form className="d-flex" role="search">
+            <form className="d-flex" role="search" onSubmit={handleSubmit}>
               <input
                 className="form-control me-2"
                 type="search"
@@ -50,7 +51,7 @@ export default function Navbar() {
                 onChange={(e) => setSearchInput(e.target.value)}
               />
               <button
-                type="button"
+                type="submit"
                 className="btn btn-primary"
                 onClick={(e) => handleSubmit(e)}
               >
@@ -68,7 +69,7 @@ export default function Navbar() {
                     setCategoryOpen(!categoryOpen);
                   }}
                 >
-                  Sort by Category
+                  Search by Category
                 </a>
                 {categoryOpen && (
                   <ul className="dropdown-menu show">{categoryDropDownList}</ul>
