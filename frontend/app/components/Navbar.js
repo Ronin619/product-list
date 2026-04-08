@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProducts } from "../../store/slices/products";
+import { fetchProducts, setFilter } from "../../store/slices/products";
 import { fetchCategories } from "../../store/slices/products";
 
 export default function Navbar() {
   const [searchInput, setSearchInput] = useState("");
   const [categoryOpen, setCategoryOpen] = useState(false);
-  const [sortPrice, setSortPrice] = useState("");
+  const [categoryOption, setCategoryOption] = useState("");
+  const [priceOption, setPriceOption] = useState("");
   const [priceOpen, setPriceOpen] = useState(false);
   const dispatch = useDispatch();
 
@@ -22,7 +23,16 @@ export default function Navbar() {
         className="dropdown-item"
         onClick={(e) => {
           e.preventDefault();
-          setCategoryOpen(!category);
+          dispatch(fetchProducts({ category: category }));
+          dispatch(
+            setFilter({
+              name: searchInput,
+              price: "",
+              category: categoryOption,
+            }),
+          );
+          setCategoryOption(category);
+          setCategoryOpen(false);
         }}
       >
         {category}
@@ -33,7 +43,15 @@ export default function Navbar() {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(fetchProducts({ name: searchInput }));
+    dispatch(
+      setFilter({
+        name: searchInput,
+        price: "",
+        category: categoryOption,
+      }),
+    );
     setSearchInput("");
+    setCategoryOption("");
   };
 
   return (
@@ -94,7 +112,20 @@ export default function Navbar() {
                         className="dropdown-item"
                         onClick={(e) => {
                           e.preventDefault();
-                          setSortPrice("lowest");
+                          const price = "lowest";
+                          dispatch(
+                            fetchProducts({
+                              price: price,
+                              category: categoryOption,
+                            }),
+                          );
+                          dispatch(
+                            setFilter({
+                              name: searchInput,
+                              price: price,
+                              category: categoryOption,
+                            }),
+                          );
                           setPriceOpen(false);
                         }}
                       >
@@ -106,7 +137,20 @@ export default function Navbar() {
                         className="dropdown-item"
                         onClick={(e) => {
                           e.preventDefault();
-                          setSortPrice("highest");
+                          const price = "highest";
+                          dispatch(
+                            fetchProducts({
+                              price: price,
+                              category: categoryOption,
+                            }),
+                          );
+                          dispatch(
+                            setFilter({
+                              name: searchInput,
+                              price: price,
+                              category: categoryOption,
+                            }),
+                          );
                           setPriceOpen(false);
                         }}
                       >
