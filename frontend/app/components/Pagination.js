@@ -1,9 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import { fetchProducts } from "../../store/slices/products";
+import { fetchProducts, setFilter } from "../../store/slices/products";
 
 export default function Pagination() {
   const totalPages = useSelector((state) => state.products.totalPages);
+  const filters = useSelector((state) => state.products.filters);
   const [currentPage, setCurrentPage] = useState(1);
   const pagesArr = Array.from({ length: totalPages }, (_, i) => i + 1);
   const dispatch = useDispatch();
@@ -17,8 +18,8 @@ export default function Pagination() {
   ));
 
   useEffect(() => {
-    dispatch(fetchProducts(currentPage));
-  }, [currentPage, dispatch]);
+    dispatch(fetchProducts({ page: currentPage, ...filters }));
+  }, [currentPage, dispatch, filters]);
 
   return (
     <nav aria-label="Page navigation example">
