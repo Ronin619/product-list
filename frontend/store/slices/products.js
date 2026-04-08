@@ -5,7 +5,7 @@ const ROOT_URL = "http://localhost:8000/products";
 
 export const fetchProducts = createAsyncThunk(
   "get/products",
-  async (page = 1, name = "", category = "") => {
+  async ({ page = 1, name = "", category = "" } = {}) => {
     const response = await axios.get(
       `${ROOT_URL}?page=${page}&name=${name}&category=${category}`,
     );
