@@ -43,6 +43,20 @@ export default function Navbar() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const trimmedInput = searchInput.trim();
+
+    if (!trimmedInput) {
+      window.alert("Enter product name");
+      return;
+    }
+
+    const validInput = /^[a-zA-Z]+$/.test(trimmedInput);
+
+    if (!validInput) {
+      window.alert("Search must contain letters only.");
+      return;
+    }
+
     dispatch(fetchProducts({ name: searchInput }));
     dispatch(
       setFilter({
