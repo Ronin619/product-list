@@ -16,6 +16,7 @@ export default function Navbar() {
   }, [dispatch]);
 
   const categories = useSelector((state) => state.products.categories);
+  const name = useSelector((state) => state.products.filters.name);
 
   const categoryDropDownList = categories.map((category) => (
     <li key={category}>
@@ -23,12 +24,12 @@ export default function Navbar() {
         className="dropdown-item"
         onClick={(e) => {
           e.preventDefault();
-          dispatch(fetchProducts({ category: category }));
+          dispatch(fetchProducts({ category: category, name: name }));
           dispatch(
             setFilter({
-              name: searchInput,
+              name: name,
               price: "",
-              category: categoryOption,
+              category: category,
             }),
           );
           setCategoryOption(category);
@@ -56,12 +57,15 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="navbar navbar-expand-lg bg-body-tertiary">
-        <div className="container-fluid">
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+      <nav className="navbar navbar-expand-lg bg-body-tertiary mb-0 mt-0">
+        <div className=" navbar-content container-fluid px-0">
+          <div
+            className="collapse navbar-collapse justify-content-center gap-4"
+            id="navbarSupportedContent"
+          >
             <form className="d-flex" role="search" onSubmit={handleSubmit}>
               <input
-                className="form-control me-2"
+                className="input form-control me-2"
                 type="search"
                 value={searchInput}
                 placeholder="Search"
@@ -76,7 +80,7 @@ export default function Navbar() {
                 Search
               </button>
             </form>
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+            <ul className="navbar-nav mb-2 mb-lg-0">
               <li className="nav-item dropdown">
                 <a
                   className="nav-link dropdown-toggle"
@@ -117,11 +121,12 @@ export default function Navbar() {
                             fetchProducts({
                               price: price,
                               category: categoryOption,
+                              name: name,
                             }),
                           );
                           dispatch(
                             setFilter({
-                              name: searchInput,
+                              name: name,
                               price: price,
                               category: categoryOption,
                             }),
@@ -142,11 +147,12 @@ export default function Navbar() {
                             fetchProducts({
                               price: price,
                               category: categoryOption,
+                              name: name,
                             }),
                           );
                           dispatch(
                             setFilter({
-                              name: searchInput,
+                              name: name,
                               price: price,
                               category: categoryOption,
                             }),

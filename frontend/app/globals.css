@@ -3,6 +3,11 @@
   --foreground: #ffffff;
 }
 
+body {
+  margin: 0;
+  padding: 0;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #ffffff;
@@ -67,4 +72,31 @@ a {
 .page-link:hover {
   cursor: default;
   font-weight: bold;
+}
+
+.container {
+  margin-top: 80px;
+}
+
+.input {
+  width: 500px;
+}
+
+.navbar-content {
+  background-color: gray;
+  padding: 40px;
+}
+
+nav {
+  margin: 0 !important;
+  padding-top: 0 !important;
+}
+
+.pagination {
+  margin-top: 20px;
+}
+
+nav[aria-label="Page navigation example"] {
+  display: flex;
+  justify-content: center;
 }
