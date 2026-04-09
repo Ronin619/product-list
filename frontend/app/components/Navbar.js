@@ -54,6 +54,7 @@ export default function Navbar() {
 
     if (!validInput) {
       window.alert("Search must contain letters only.");
+      setSearchInput("");
       return;
     }
 
