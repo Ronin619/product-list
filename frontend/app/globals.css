@@ -100,3 +100,20 @@ nav[aria-label="Page navigation example"] {
   display: flex;
   justify-content: center;
 }
+
+.login-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 400px;
+  padding: 100px;
+  margin-top: 40px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: green;
+}
+
+.login-btn {
+  background-color: red;
+  color: blue;
+}
