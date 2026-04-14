@@ -2,8 +2,11 @@ const router = require("express").Router();
 const faker = require("faker");
 const Product = require("../models/product");
 const Reviews = require("../models/reviews");
-const { query } = require("express");
-const product = require("../models/product");
+const passport = require("passport");
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const session = require("express-session");
+const mongoose = require("mongoose");
+const User = require("../models/users");
 
 router.get("/generate-fake-data", (req, res, next) => {
   for (let i = 0; i < 90; i++) {
