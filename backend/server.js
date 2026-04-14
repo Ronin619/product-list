@@ -96,6 +96,13 @@ app.get("/api/current_user", (req, res) => {
   res.send(req.user);
 });
 
+app.get("/api/logout", (req, res, next) => {
+  req.logout((err) => {
+    if (err) return next(err);
+    res.send("logged out");
+  });
+});
+
 const mainRoutes = require("./routes/main");
 
 app.use(mainRoutes);
